@@ -31,18 +31,13 @@ func main() {
 
 	year := time.Now().Year()
 	month := int(time.Now().Month()) // Ayı tamsayı olarak almak için
-	url := os.Getenv("API_BASE_URL") + fmt.Sprintf("%d/%02d?country=turkey&city=", year, month)
+	BASE_URL := os.Getenv("API_BASE_URL") + fmt.Sprintf("%d/%02d?country=turkey&city=", year, month)
 
-	prayerTimesService := services.NewPrayerTimeService(url)
+	prayerTimesService := services.NewPrayerTimeService(BASE_URL)
 	prayerTimesHandler := handlers.NewPrayerTimeHandler(prayerTimesService)
 	routes.PrayerTimeRoutes(app, prayerTimesHandler)
 
 	bot, err := tgbotapi.NewBotAPI(token)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	bot, err = tgbotapi.NewBotAPI(token)
 	if err != nil {
 		log.Fatal(err)
 	}

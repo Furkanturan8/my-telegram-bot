@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+var notificationsSent = make(map[string]bool) // Globale alındı, Her namaz vakti için bildirim gönderildi mi kontrolü. eğer bunu yapmazsak vakit geldiğinde her dk da mesaj gönderir!
+
 func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
@@ -182,7 +184,6 @@ func notifyBeforePrayer(bot *tgbotapi.BotAPI, chatID int64, cityName string, day
 		}
 
 		currentTime := time.Now().In(time.FixedZone("UTC+03", 3*60*60))
-		notificationsSent := make(map[string]bool) // Her namaz vakti için bildirim gönderildi mi kontrolü. eğer bunu yapmazsak vakit geldiğinde her dk da mesaj gönderir!
 
 		for _, prayerTime := range prayerTimesList {
 			prayerTimeClean := strings.Split(prayerTime.time, " ")[0]
