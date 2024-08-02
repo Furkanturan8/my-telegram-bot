@@ -45,5 +45,8 @@ func GetWeather(city string) (string, error) {
 	temp := weatherResponse.Main.Temp
 	wind := weatherResponse.Wind
 
-	return fmt.Sprintf("(%s) için şu anki hava durumu: \n\t Hava -> %s \n\t Sıcaklık -> %.2f°C \n\t Rüzgar -> hızı: %.2f , yönü: %.2f", city, description, temp, wind.Speed, wind.Deg), nil
+	return fmt.Sprintf("<b>(%s) için şu anki hava durumu:</b> \n\t <i>Hava</i> -> %s \n\t <i>Sıcaklık</i> -> %.2f°C \n\t <i>Rüzgar</i> -> hızı: %.2f , yönü: %.2f", city, description, temp, wind.Speed, wind.Deg), nil
 }
+
+// NOTE : I got the apis from this site: https://www.hasanadiguzel.com.tr/api-tutorials/merkez-bankasi-guncel-kur-api
+// I would like to thank him (Hasan ADIGÜZEL) for making this service public:

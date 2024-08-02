@@ -78,12 +78,16 @@ func SendPrayerTimes(bot *tgbotapi.BotAPI, chatID int64, cityName string, dayNum
 		timeLeft = "Bugünkü namaz vakitleri tamamlandı."
 	}
 
-	response := fmt.Sprintf("Namaz Vakitleri (%s):\nImsak: %s\nGunes: %s\nOgle: %s\nIkindi: %s\nAksam: %s\nYatsi: %s\n\nBir sonraki namaz vakti (%s): %s\nKalan süre: %s",
+	response := fmt.Sprintf("<b>Namaz Vakitleri (%s):</b> \n\t <i>Imsak:</i> %s\n\t <i>Gunes:</i> %s\n\t <i>Ogle:</i> %s\n\t <i>Ikindi:</i> %s\n\t <i>Aksam:</i> %s\n\t <i>Yatsi:</i> %s\n\n<b>Bir sonraki namaz vakti (%s):</b> %s\n<b>Kalan süre:</b> %s",
 		cityName, prayerTimes.Timings.Imsak, prayerTimes.Timings.Sunrise, prayerTimes.Timings.Dhuhr, prayerTimes.Timings.Asr, prayerTimes.Timings.Maghrib, prayerTimes.Timings.Isha,
 		prayerName, nextPrayerTime.Format("15:04"), timeLeft)
 
 	msg := tgbotapi.NewMessage(chatID, response)
-	bot.Send(msg)
+	msg.ParseMode = "HTML"
+	_, err = bot.Send(msg)
+	if err != nil {
+		log.Printf("Mesaj gönderim hatası: %v", err)
+	}
 }
 
 func NotifyBeforePrayer(bot *tgbotapi.BotAPI, chatID int64, cityName string, dayNumber int, h *handlers.PrayerTimeHandler) {

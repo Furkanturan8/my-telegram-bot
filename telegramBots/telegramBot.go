@@ -51,11 +51,15 @@ func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
 						}
 						weatherInfo, err := GetWeather(city)
 						if err != nil {
-							msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Hava durumu alınamadı: %v", err))
+							msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Hava durumu alınamadı (Hatalı şehir ismi girmiş olabilirsiniz!) : %v", err))
 							bot.Send(msg)
 						} else {
 							msg := tgbotapi.NewMessage(update.Message.Chat.ID, weatherInfo)
-							bot.Send(msg)
+							msg.ParseMode = "HTML"
+							_, err := bot.Send(msg)
+							if err != nil {
+								log.Printf("Mesaj gönderim hatası: %v", err)
+							}
 						}
 
 					case "exchange_rate":

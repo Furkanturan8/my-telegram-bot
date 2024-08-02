@@ -6,7 +6,6 @@ import (
 	"net/http"
 )
 
-// ExchangeRateResp struct yapısı
 type ExchangeRateResp struct {
 	ExchangeRates []map[string]interface{} `json:"TCMB_AnlikKurBilgileri"`
 }
@@ -47,7 +46,7 @@ func GetExchangeRate() (string, error) {
 	// Verileri string olarak birleştirme
 	result := "<b>Euro ve Dolar Kurları:</b>\n\n"
 	for _, rate := range selectedRates {
-		result += fmt.Sprintf("<b>%s (%s):</b>\n\t<i>Forex Alış:</i> <b>%.4f</b>\n\t<i>Forex Satış:</i> <b>%.4f</b>\n\t<i>Banknote Alış:</i> <b>%.4f</b>\n\t<i>Banknote Satış:</i> <b>%.4f</b>\n\n",
+		result += fmt.Sprintf("<b>%s (%s):</b>\n\t<i>Döviz Alış:</i> <b>%.4f</b>\n\t<i>Döviz Satış:</i> <b>%.4f</b>\n\t<i>Efektif Alış:</i> <b>%.4f</b>\n\t<i>Efektif Satış:</i> <b>%.4f</b>\n\n",
 			rate["Isim"], rate["CurrencyName"], rate["ForexBuying"], rate["ForexSelling"], rate["BanknoteBuying"], rate["BanknoteSelling"])
 	}
 
