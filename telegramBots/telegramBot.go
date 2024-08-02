@@ -27,8 +27,12 @@ func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
 				if update.Message.IsCommand() {
 					switch update.Message.Command() {
 					case "start":
-						msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Merhaba, hoşgeldiniz! \n\n Namaz vakitleri için şuna tıklayın: \n\t Bursa (Default): /prayer_times \n\t Diğer Şehir: /prayer_times <şehir> \n\n Hava durumu için: \n\t Bursa (Default):  /weather \n\t Diğer Şehir: /weather <şehir> \n\n Döviz kuruna bak (EURO & DOLLAR): \n\t /exchange_rate")
-						bot.Send(msg)
+						msg := tgbotapi.NewMessage(update.Message.Chat.ID, "<b>Merhaba, hoşgeldiniz!</b> \n\n <b>Namaz vakitleri için şuna tıklayın:</b> \n\t Bursa (Default): /prayer_times \n\t Diğer Şehir: /prayer_times şehir \n\n <b>Hava durumu için:</b> \n\t Bursa (Default):  /weather \n\t Diğer Şehir: /weather şehir \n\n <b>Döviz kuruna bak:</b> \n\t Euro && Dolar: /exchange_rate")
+						msg.ParseMode = "HTML"
+						_, err := bot.Send(msg)
+						if err != nil {
+							log.Printf("Mesaj gönderim hatası: %v", err)
+						}
 
 					case "prayer_times":
 						city := "bursa" // Varsayılan şehir
@@ -52,6 +56,20 @@ func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
 						} else {
 							msg := tgbotapi.NewMessage(update.Message.Chat.ID, weatherInfo)
 							bot.Send(msg)
+						}
+
+					case "exchange_rate":
+						exchangeRate, err := GetExchangeRate()
+						if err != nil {
+							msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Döviz kuru alınamadı: %v", err))
+							bot.Send(msg)
+						} else {
+							msg := tgbotapi.NewMessage(update.Message.Chat.ID, exchangeRate)
+							msg.ParseMode = "HTML"
+							_, err := bot.Send(msg)
+							if err != nil {
+								log.Printf("Mesaj gönderim hatası: %v", err)
+							}
 						}
 
 					default:
