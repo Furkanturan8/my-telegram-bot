@@ -1,4 +1,4 @@
-package main
+package telegramBots
 
 import (
 	"fmt"
@@ -7,70 +7,13 @@ import (
 	"my-telegram-bot/handlers"
 	"my-telegram-bot/helpers"
 	"my-telegram-bot/models"
-	"os"
-	"strconv"
 	"strings"
 	"time"
 )
 
-var notificationsSent = make(map[string]bool) // Globale alındı, Her namaz vakti için bildirim gönderildi mi kontrolü. eğer bunu yapmazsak vakit geldiğinde her dk da mesaj gönderir!
+var notificationsSent = make(map[string]bool) // Her namaz vakti için bildirim gönderildi mi kontrolü
 
-func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
-	u := tgbotapi.NewUpdate(0)
-	u.Timeout = 60
-
-	updates, err := bot.GetUpdatesChan(u)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	go func() {
-		for update := range updates {
-			if update.Message != nil {
-				if update.Message.IsCommand() {
-					switch update.Message.Command() {
-					case "start":
-						msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Merhaba, hoşgeldiniz! \n\n Namaz vakitleri için şuna tıklayın: \n\t Bursa (Default): /prayer_times \n\t Diğer Şehir: /prayer_times_<şehir> \n\n Uyarı: şehir ismini ingilizce kelimelerle yazınız!")
-						bot.Send(msg)
-
-					case "prayer_times":
-						cityName := "bursa"
-						sendPrayerTimes(bot, update.Message.Chat.ID, cityName, time.Time{}.Day(), h)
-
-					default:
-						if strings.HasPrefix(update.Message.Command(), "prayer_times_") {
-							cityParam := strings.TrimPrefix(update.Message.Command(), "prayer_times_")
-							cityName := helpers.ConvertTurkishToEnglish(strings.ToLower(cityParam))
-							sendPrayerTimes(bot, update.Message.Chat.ID, cityName, time.Time{}.Day(), h)
-						} else {
-							msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Bilinmeyen komut.")
-							bot.Send(msg)
-						}
-					}
-				}
-			}
-		}
-	}()
-
-	go func() {
-		chatID, err := strconv.Atoi(os.Getenv("CHAT_ID"))
-		if err != nil {
-			log.Fatal(err, "chatID hatalı!")
-		}
-		for {
-			cityName := "bursa" // Burada varsayılan şehir adı kullanılıyor
-			dayNumber := time.Now().Day()
-
-			// Bildirim gönderme işlemini başlat
-			notifyBeforePrayer(bot, int64(chatID), cityName, dayNumber, h)
-
-			// 1 dakikalık bir gecikme ekledik, sürekli döngüde her dakika kontrol eder
-			time.Sleep(1 * time.Minute)
-		}
-	}()
-}
-
-func sendPrayerTimes(bot *tgbotapi.BotAPI, chatID int64, cityName string, dayNumber int, h *handlers.PrayerTimeHandler) {
+func SendPrayerTimes(bot *tgbotapi.BotAPI, chatID int64, cityName string, dayNumber int, h *handlers.PrayerTimeHandler) {
 	cityID, exists := models.CityCodes[cityName]
 	if !exists {
 		msg := tgbotapi.NewMessage(chatID, "Geçersiz şehir ismi.")
@@ -90,7 +33,6 @@ func sendPrayerTimes(bot *tgbotapi.BotAPI, chatID int64, cityName string, dayNum
 		return
 	}
 
-	// for döngüsü için slice oluşturduk
 	prayerTimesList := []struct{ name, time string }{
 		{"Imsak", prayerTimes.Timings.Imsak},
 		{"Gunes", prayerTimes.Timings.Sunrise},
@@ -100,34 +42,27 @@ func sendPrayerTimes(bot *tgbotapi.BotAPI, chatID int64, cityName string, dayNum
 		{"Yatsi", prayerTimes.Timings.Isha},
 	}
 
-	// Kalan süreyi hesaplayalım
 	currentTime := time.Now().In(time.FixedZone("UTC+03", 3*60*60))
 	var nextPrayerTime time.Time
 	var prayerName string
 
 	for _, prayerTime := range prayerTimesList {
-		// Saat dilimi formatlarının aynı olmasına dikkat edelim
-		prayerTimeClean := strings.Split(prayerTime.time, " ")[0] // Saat dilimi kısmını ayıklayın
+		prayerTimeClean := strings.Split(prayerTime.time, " ")[0]
 		prayerTimeDate := fmt.Sprintf("%s %s", currentTime.Format("2006-01-02"), prayerTimeClean)
 		prayerTimeParsed, err := time.ParseInLocation("2006-01-02 15:04", prayerTimeDate, time.FixedZone("UTC+03", 3*60*60))
 		if err != nil {
 			log.Printf("Error parsing prayer time: %v", err)
 			continue
 		}
-		// fmt.Println("prayerTimeClean:", prayerTimeClean, "prayerTimeDate:", prayerTimeDate, "prayerTimeParsed:", prayerTimeParsed)
 
-		// Bu kod, geçerli bir "sonraki" namaz vaktini bulmak için kullanıyoz bea!
 		if (nextPrayerTime.IsZero() || prayerTimeParsed.Before(nextPrayerTime)) && prayerTimeParsed.After(currentTime) {
 			nextPrayerTime = prayerTimeParsed
-			fmt.Println("next:", nextPrayerTime)
 			prayerName = prayerTime.name
-			fmt.Println("prayerName:", prayerName)
 		}
 	}
 
 	var timeLeft string
 	if !nextPrayerTime.IsZero() {
-		fmt.Println("current:", currentTime)
 		duration := nextPrayerTime.Sub(currentTime)
 		hours := int(duration.Hours())
 		minutes := int(duration.Minutes()) % 60
@@ -151,8 +86,7 @@ func sendPrayerTimes(bot *tgbotapi.BotAPI, chatID int64, cityName string, dayNum
 	bot.Send(msg)
 }
 
-// Namaz vakitlerine 30 dakika kala bildirim gönder
-func notifyBeforePrayer(bot *tgbotapi.BotAPI, chatID int64, cityName string, dayNumber int, h *handlers.PrayerTimeHandler) {
+func NotifyBeforePrayer(bot *tgbotapi.BotAPI, chatID int64, cityName string, dayNumber int, h *handlers.PrayerTimeHandler) {
 	for {
 		cityName = helpers.ConvertTurkishToEnglish(strings.ToLower(cityName))
 
@@ -173,7 +107,6 @@ func notifyBeforePrayer(bot *tgbotapi.BotAPI, chatID int64, cityName string, day
 			return
 		}
 
-		// for döngüsü için slice oluşturduk
 		prayerTimesList := []struct{ name, time string }{
 			{"Imsak", prayerTimes.Timings.Imsak},
 			{"Gunes", prayerTimes.Timings.Sunrise},
@@ -209,7 +142,6 @@ func notifyBeforePrayer(bot *tgbotapi.BotAPI, chatID int64, cityName string, day
 			}
 		}
 
-		// 1 dakikalık bir gecikme ekleyin, sürekli döngüde her dakika kontrol eder
 		time.Sleep(1 * time.Minute)
 	}
 }

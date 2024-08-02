@@ -3,17 +3,17 @@ package main
 import (
 	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 	"log"
+	"my-telegram-bot/handlers"
 	"my-telegram-bot/helpers"
 	"my-telegram-bot/routes"
+	"my-telegram-bot/services"
+	"my-telegram-bot/telegramBots"
 	"os"
 	_ "strconv"
 	"time"
-
-	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
-	"my-telegram-bot/handlers"
-	"my-telegram-bot/services"
 )
 
 func main() {
@@ -42,7 +42,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	StartTelegramBot(bot, prayerTimesHandler)
+	telegramBots.StartTelegramBot(bot, prayerTimesHandler)
 
 	fmt.Println("\n\tBismillah -> Bot is running...")
 	app.Listen(":3000")

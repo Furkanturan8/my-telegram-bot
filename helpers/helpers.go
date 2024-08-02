@@ -54,3 +54,25 @@ func RequestLogger(c *fiber.Ctx) error {
 
 	return err
 }
+
+func TranslateWeatherDescription(description string) string {
+	translationMap := map[string]string{
+		"clear sky":        "Açık hava",
+		"few clouds":       "Az bulutlu",
+		"scattered clouds": "Parçalı bulutlu",
+		"broken clouds":    "Kısmi bulutlu",
+		"overcast clouds":  "Kapalı bulutlu",
+		"shower":           "Sağanak yağışlı",
+		"rain":             "Yağışlı",
+		"thunderstorm":     "Fırtına",
+		"snow":             "Kar",
+		"mist":             "Sis",
+		"fog":              "Sis",
+		"haze":             "Dumanlı",
+	}
+
+	if translated, ok := translationMap[description]; ok {
+		return translated
+	}
+	return description // Varsayılan olarak İngilizce açıklama döndür
+}
