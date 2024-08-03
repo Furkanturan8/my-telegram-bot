@@ -76,6 +76,19 @@ func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
 							}
 						}
 
+					case "gold":
+						exc, err := GetMetalsExchange()
+						if err != nil {
+							msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Gold kuru alınamadı: %v", err))
+							bot.Send(msg)
+						} else {
+							msg := tgbotapi.NewMessage(update.Message.Chat.ID, exc)
+							msg.ParseMode = "HTML"
+							_, err := bot.Send(msg)
+							if err != nil {
+								log.Printf("Mesaj gönderim hatası: %v", err)
+							}
+						}
 					default:
 						msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Bilinmeyen komut.")
 						bot.Send(msg)

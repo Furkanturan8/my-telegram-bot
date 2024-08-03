@@ -14,21 +14,21 @@ func GetExchangeRate() (string, error) {
 	url := fmt.Sprintf("https://hasanadiguzel.com.tr/api/kurgetir")
 	resp, err := http.Get(url)
 	if err != nil {
-		return "", fmt.Errorf("hata1", err)
+		return "", fmt.Errorf("API çağrılırken hata oluştu: %v", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("hata2", err)
+		return "", fmt.Errorf("API yanıtı beklenmeyen bir durum içeriyor: HTTP %d", resp.StatusCode)
 	}
 
 	var exchangeRateResp ExchangeRateResp
 	if err := json.NewDecoder(resp.Body).Decode(&exchangeRateResp); err != nil {
-		return "", fmt.Errorf("hata3", err)
+		return "", fmt.Errorf("döviz kurları bilgisi bulunamadı")
 	}
 
 	if len(exchangeRateResp.ExchangeRates) == 0 {
-		return "", fmt.Errorf("hata4", err)
+		return "", fmt.Errorf("ABD Doları ve Euro verileri bulunamadı")
 	}
 
 	// ABD Doları ve Euro için filtreleme
