@@ -27,7 +27,7 @@ func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
 				if update.Message.IsCommand() {
 					switch update.Message.Command() {
 					case "start":
-						msg := tgbotapi.NewMessage(update.Message.Chat.ID, "<b>Merhaba, hoşgeldiniz!</b> \n\n <b>Namaz vakitleri için şuna tıklayın:</b> \n\t Bursa (Default): /prayer_times \n\t Diğer Şehir: /prayer_times şehir \n\n <b>Hava durumu için:</b> \n\t Bursa (Default):  /weather \n\t Diğer Şehir: /weather şehir \n\n <b>Döviz kuruna bak:</b> \n\t Euro && Dolar: /exchange_rate")
+						msg := tgbotapi.NewMessage(update.Message.Chat.ID, "<b>Merhaba, hoşgeldiniz!</b> \n\n <b>Namaz vakitleri için şuna tıklayın:</b> \n\t Bursa (Default): /prayer_times \n\t Diğer Şehir: /prayer_times şehir \n\n <b>Hava durumu için:</b> \n\t Bursa (Default):  /weather \n\t Diğer Şehir: /weather şehir \n\n <b>Döviz kuruna bak:</b> \n\t Euro && Dolar: /exchange_rate \n\t Altın && Gümüş: /gold")
 						msg.ParseMode = "HTML"
 						_, err := bot.Send(msg)
 						if err != nil {
@@ -77,7 +77,7 @@ func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
 						}
 
 					case "gold":
-						exc, err := GetMetalsExchange()
+						exc, err := GetMetalsValues()
 						if err != nil {
 							msg := tgbotapi.NewMessage(update.Message.Chat.ID, fmt.Sprintf("Gold kuru alınamadı: %v", err))
 							bot.Send(msg)
