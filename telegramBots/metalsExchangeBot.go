@@ -19,7 +19,7 @@ type Metals struct {
 }
 
 func ConnectToExcel() (Metals, error) {
-	file, err := excelize.OpenFile("data/goldDatas.xlsx")
+	file, err := excelize.OpenFile("data/goldDatas.xlsm")
 	if err != nil {
 		return Metals{}, fmt.Errorf("excel dosyası açılamadı: %v", err)
 	}
