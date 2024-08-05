@@ -16,7 +16,11 @@ Hello everyone! This project is my telegram bot. This bot is both for my needs a
 
 <br> <b>/Weather Command</b> 
 
-![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot2.png)
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot1.png)
+
+<br> <b>/Prayer Times Command</b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot5.png)
 
 <br> <b>/Exchange Rate Command</b> 
 
