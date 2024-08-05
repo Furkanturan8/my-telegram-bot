@@ -10,4 +10,20 @@ Hello everyone! This project is my telegram bot. This bot is both for my needs a
 <i>4-)<i/> Brings the prayer times in Turkey according to the city you want. It shows the time remaining to the next prayer time (counter). \
 <i>5-)<i/> It sends a message as a notification 30 minutes before each prayer time for Bursa city..
 
-<br> <b>Project details photo/video will be uploaded.</b>
+<br> <b>/Start Command</b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot1.png)
+
+<br> <b>/Weather Command</b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot2.png)
+
+<br> <b>/Exchange Rate Command</b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot3.png)
+
+<br> <b>/Metal Exchange (Gold) Command</b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot4.1.png)
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot4.2.png)
