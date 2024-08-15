@@ -1,6 +1,7 @@
 # About Project
 
-Hello everyone! This project is my telegram bot. This bot is both for my needs and for the needs of other users in everyday life. 
+Hello everyone! This project is my telegram bot. This bot is both for my needs and for the needs of other users in everyday life. \
+* <b> My telegram bot is running live. If you want to use my bot, just contact me! I will give you the link to the bot. </b>
 
 ## Its features are as follows
 
@@ -26,7 +27,7 @@ Hello everyone! This project is my telegram bot. This bot is both for my needs a
 
 ![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot3.png)
 
-<br> <b>/Metal Exchange (Gold) Command</b> 
+<br> <b>/Metal Exchange (Gold) Command (NOTE: Data is not live at the moment. I will solve this problem in the future.)</b> 
 
 ![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot4.1.png)
 
