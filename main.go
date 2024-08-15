@@ -4,7 +4,6 @@ import (
 	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
 	"log"
 	"my-telegram-bot/handlers"
 	"my-telegram-bot/helpers"
@@ -17,10 +16,11 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
+	/*err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
-	}
+	}*/
+
 	token := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if token == "" {
 		log.Fatal("TELEGRAM_BOT_TOKEN is not set")
