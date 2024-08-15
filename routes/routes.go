@@ -9,3 +9,7 @@ func PrayerTimeRoutes(app *fiber.App, prayerTimeHandler *handlers.PrayerTimeHand
 	app.Get("/prayer-times/:city", prayerTimeHandler.GetPrayerTimesByCity)
 	app.Get("prayer-times/:city/:dayNumber", prayerTimeHandler.GetPrayerTimeByCity)
 }
+
+func PingRoutes(app *fiber.App, pingHandler *handlers.PingHandler) {
+	app.Get("/ping", pingHandler.Ping)
+}

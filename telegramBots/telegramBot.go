@@ -6,6 +6,7 @@ import (
 	"log"
 	"my-telegram-bot/handlers"
 	"my-telegram-bot/helpers"
+	"net/http"
 	"os"
 	"strconv"
 	"strings"
@@ -114,4 +115,22 @@ func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
 			time.Sleep(1 * time.Minute)
 		}
 	}()
+
+	go KeepAlive()
+
+}
+
+func KeepAlive() {
+	for {
+		resp, err := http.Get("http://localhost:3010/ping")
+		if err != nil {
+			log.Printf("KeepAlive isteği hatası: %v", err)
+		} else {
+			resp.Body.Close()
+			log.Println("KeepAlive isteği başarılı")
+		}
+
+		// 5 dakikalık aralıklarla kontrol eder
+		time.Sleep(10 * time.Minute)
+	}
 }

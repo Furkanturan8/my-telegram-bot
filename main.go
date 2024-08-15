@@ -4,6 +4,7 @@ import (
 	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 	"log"
 	"my-telegram-bot/handlers"
 	"my-telegram-bot/helpers"
@@ -16,10 +17,10 @@ import (
 )
 
 func main() {
-	//err := godotenv.Load()
-	//if err != nil {
-	//	log.Fatalf("Error loading .env file: %v", err)
-	//	}
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
 	token := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if token == "" {
 		log.Fatal("TELEGRAM_BOT_TOKEN is not set")
@@ -36,6 +37,11 @@ func main() {
 	prayerTimesHandler := handlers.NewPrayerTimeHandler(prayerTimesService)
 	routes.PrayerTimeRoutes(app, prayerTimesHandler)
 
+	// Servisleri oluştur
+	pingService := services.NewPingService()
+	pingHandler := handlers.NewPingHandler(pingService)
+	routes.PingRoutes(app, pingHandler)
+
 	bot, err := tgbotapi.NewBotAPI(token)
 	if err != nil {
 		log.Fatal(err)
@@ -44,5 +50,5 @@ func main() {
 	telegramBots.StartTelegramBot(bot, prayerTimesHandler)
 
 	fmt.Println("\n\tBismillah -> Bot is running...")
-	app.Listen(":3000")
+	app.Listen(":3010")
 }
