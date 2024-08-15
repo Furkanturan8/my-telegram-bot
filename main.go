@@ -48,6 +48,7 @@ func main() {
 	}
 
 	telegramBots.StartTelegramBot(bot, prayerTimesHandler)
+	go telegramBots.KeepAlive()
 
 	fmt.Println("\n\tBismillah -> Bot is running...")
 	app.Listen(":3010")

@@ -115,9 +115,6 @@ func StartTelegramBot(bot *tgbotapi.BotAPI, h *handlers.PrayerTimeHandler) {
 			time.Sleep(1 * time.Minute)
 		}
 	}()
-
-	go KeepAlive()
-
 }
 
 func KeepAlive() {
@@ -130,7 +127,7 @@ func KeepAlive() {
 			log.Println("KeepAlive isteği başarılı")
 		}
 
-		// 5 dakikalık aralıklarla kontrol eder
+		// 10 dakikalık aralıklarla kontrol eder
 		time.Sleep(10 * time.Minute)
 	}
 }
