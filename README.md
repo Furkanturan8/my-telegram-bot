@@ -13,7 +13,29 @@ Hello everyone! This project is my telegram bot. This bot is both for my needs a
 
 <br> <b>/Start Command</b> 
 
-![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot1.png)
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/1.png)
+
+<br> <b>/Learn English Commands (using GEMINI CHAT API) </b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/2.png)
+
+<br> <b>/Daily Word Command </b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/3.png)
+
+<br> <b>/Daily Aphorisms Command </b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/4.png)
+
+<br> <b>/Grammar Topics Command </b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/5.png)
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/6.png)
+
+<br> <b>/Check Sentence [your sentence] Command </b> 
+
+![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/7.png)
 
 <br> <b>/Weather Command</b> 
 
@@ -27,7 +49,7 @@ Hello everyone! This project is my telegram bot. This bot is both for my needs a
 
 ![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot3.png)
 
-<br> <b>/Metal Exchange (Gold) Command (NOTE: Data is not live at the moment. I will solve this problem in the future.)</b> 
+<br> <b>/Metal Exchange (Gold) Command</b> 
 
 ![startCommand](https://github.com/Furkanturan8/my-telegram-bot/blob/main/fotos/bot4.1.png)
 
